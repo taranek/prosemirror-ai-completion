@@ -72,14 +72,45 @@ export function useDoubleSpaceConfirmation({
     }
   });
 
-  // Handle mobile input events for space detection
-  useEditorEvent(editor, "beforeinput", (event: InputEvent) => {
+  // Handle mobile input using compositionend and input events
+  useEditorEvent(editor, "compositionend", (event: CompositionEvent) => {
     if (!hasActiveCompletion || !isMobileDevice()) return;
     
     if (event.data === " ") {
-      event.preventDefault();
+      // Remove the space that was just inserted
+      const state = editor.state;
+      const tr = state.tr;
+      const { from } = state.selection;
+      if (from > 0 && state.doc.textBetween(from - 1, from) === " ") {
+        tr.delete(from - 1, from);
+        editor.view.dispatch(tr);
+      }
       handleSpacePress();
-    } else if (event.data !== null) {
+    } else if (event.data && event.data.trim() !== "") {
+      // Cancel completion on non-space input
+      cancelCompletion();
+    }
+  });
+
+  // Handle direct input for non-composition scenarios
+  useEditorEvent(editor, "input", (event: Event) => {
+    if (!hasActiveCompletion || !isMobileDevice()) return;
+    
+    const inputEvent = event as InputEvent;
+    // Skip if this was part of a composition
+    if (inputEvent.isComposing) return;
+    
+    if (inputEvent.inputType === "insertText" && inputEvent.data === " ") {
+      // Remove the space that was just inserted
+      const state = editor.state;
+      const tr = state.tr;
+      const { from } = state.selection;
+      if (from > 0 && state.doc.textBetween(from - 1, from) === " ") {
+        tr.delete(from - 1, from);
+        editor.view.dispatch(tr);
+      }
+      handleSpacePress();
+    } else if (inputEvent.inputType === "insertText" && inputEvent.data && inputEvent.data !== " ") {
       // Cancel completion on non-space input
       cancelCompletion();
     }
