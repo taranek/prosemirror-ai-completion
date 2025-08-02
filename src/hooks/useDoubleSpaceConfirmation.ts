@@ -72,6 +72,19 @@ export function useDoubleSpaceConfirmation({
     }
   });
 
+  // Handle mobile input events for space detection
+  useEditorEvent(editor, "beforeinput", (event: InputEvent) => {
+    if (!hasActiveCompletion || !isMobileDevice()) return;
+    
+    if (event.data === " ") {
+      event.preventDefault();
+      handleSpacePress();
+    } else if (event.data !== null) {
+      // Cancel completion on non-space input
+      cancelCompletion();
+    }
+  });
+
   useEffect(function cleanupTimersOnUnmount() {
     return () => {
       if (doubleSpaceTimeout.current) {
