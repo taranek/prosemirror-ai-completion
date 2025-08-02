@@ -4,12 +4,10 @@ import "prosekit/basic/typography.css";
 import { defineBasicExtension } from "prosekit/basic";
 import { createEditor, type NodeJSON, union, Editor } from "prosekit/core";
 import { ProseKit } from "prosekit/react";
-import { useMemo, useRef } from "react";
+import { useMemo } from "react";
 import { defineCompletion } from "@/extensions/CompletionExtension";
 import { useStreamingCompletion } from "@/hooks/useStreamingCompletion";
 import { useEditorEvent } from "@/hooks/useEditorEvent";
-import { useDoubleSpaceConfirmation } from "@/hooks/useDoubleSpaceConfirmation";
-import { useMobileKeyboard } from "@/hooks/useMobileKeyboard";
 
 export function defineExtension() {
 	return union(defineBasicExtension(), defineCompletion());
@@ -23,7 +21,6 @@ export function ProseMirrorEditor({
 }: {
 	defaultContent?: NodeJSON;
 }) {
-	const editorRef = useRef<HTMLElement>(null);
 	
 	const editor = useMemo(() => {
 		const extension = defineExtension();
@@ -34,14 +31,6 @@ export function ProseMirrorEditor({
 		editor,
 	});
 
-	useDoubleSpaceConfirmation({
-		editor,
-		hasActiveCompletion,
-		confirmCompletion,
-		cancelCompletion,
-	});
-
-	useMobileKeyboard({ editorRef });
 
 	useEditorEvent(editor, "keydown", (event: KeyboardEvent) => {
 		if (event.key === "Tab") {
@@ -50,10 +39,8 @@ export function ProseMirrorEditor({
 			return;
 		}
 		
-		// Cancel completion on other keys (except space, which is handled by the hook)
-		if (event.key !== " ") {
-			cancelCompletion();
-		}
+		// Cancel completion on other keys
+		cancelCompletion();
 	});
 
 	useEditorEvent(editor, "focus", cancelCompletion);
@@ -62,7 +49,6 @@ export function ProseMirrorEditor({
 	return (
 		<ProseKit editor={editor}>
 			<div 
-				ref={editorRef}
 				className="box-border h-full w-full min-h-36 overflow-y-hidden overflow-x-hidden rounded-md border border-solid border-gray-200 dark:border-gray-700 shadow flex flex-col bg-white dark:bg-gray-950 color-black dark:color-white"
 			>
 				<div

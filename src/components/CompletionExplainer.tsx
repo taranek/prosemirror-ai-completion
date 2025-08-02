@@ -21,16 +21,8 @@ export function CompletionExplainer() {
         <div className="flex-1 space-y-2">
           <h4 className="font-medium text-foreground text-sm">Mobile</h4>
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <div className="flex items-center justify-center w-16 h-8 rounded border bg-foreground-10 border-foreground-20 text-xs font-light text-foreground-50">
-                space
-              </div>
-              <div className="flex items-center justify-center w-16 h-8 rounded border bg-foreground-10 border-foreground-20 text-xs font-light text-foreground-50">
-                space
-              </div>
-            </div>
             <span className="text-sm text-foreground-50">
-              Double-tap space
+              Not supported yet
             </span>
           </div>
         </div>

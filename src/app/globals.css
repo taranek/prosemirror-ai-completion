@@ -32,22 +32,6 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Mobile keyboard handling */
-@supports (height: 100dvh) {
-	html, body {
-		height: 100dvh;
-	}
-}
-
-/* Ensure the body uses safe area insets on mobile */
-@supports (padding: env(safe-area-inset-top)) {
-	body {
-		padding-top: env(safe-area-inset-top);
-		padding-bottom: env(safe-area-inset-bottom);
-		padding-left: env(safe-area-inset-left);
-		padding-right: env(safe-area-inset-right);
-	}
-}
 
 @keyframes animate {
 	0% {
