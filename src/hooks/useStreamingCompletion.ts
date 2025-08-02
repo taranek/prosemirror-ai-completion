@@ -109,5 +109,6 @@ export function useStreamingCompletion({
 	return {
 		cancelCompletion,
 		confirmCompletion,
+		hasActiveCompletion: currentCompletionId !== null,
 	};
 }

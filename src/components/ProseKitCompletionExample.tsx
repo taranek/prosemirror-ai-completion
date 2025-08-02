@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { defineCompletion } from "@/extensions/CompletionExtension";
 import { useStreamingCompletion } from "@/hooks/useStreamingCompletion";
 import { useEditorEvent } from "@/hooks/useEditorEvent";
+import { useDoubleSpaceConfirmation } from "@/hooks/useDoubleSpaceConfirmation";
 
 export function defineExtension() {
 	return union(defineBasicExtension(), defineCompletion());
@@ -26,8 +27,15 @@ export function ProseMirrorEditor({
 		return createEditor({ extension, defaultContent });
 	}, [defaultContent]);
 
-	const { confirmCompletion, cancelCompletion } = useStreamingCompletion({
+	const { confirmCompletion, cancelCompletion, hasActiveCompletion } = useStreamingCompletion({
 		editor,
+	});
+
+	useDoubleSpaceConfirmation({
+		editor,
+		hasActiveCompletion,
+		confirmCompletion,
+		cancelCompletion,
 	});
 
 	useEditorEvent(editor, "keydown", (event: KeyboardEvent) => {
@@ -36,7 +44,11 @@ export function ProseMirrorEditor({
 			confirmCompletion();
 			return;
 		}
-		cancelCompletion();
+		
+		// Cancel completion on other keys (except space, which is handled by the hook)
+		if (event.key !== " ") {
+			cancelCompletion();
+		}
 	});
 
 	useEditorEvent(editor, "focus", cancelCompletion);
