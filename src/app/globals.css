@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+:root {
+	--background: #ffffff;
+	--foreground: #171717;
+	--foreground-10: color-mix(in oklch, var(--foreground) 10%, transparent);
+	--foreground-20: color-mix(in oklch, var(--foreground) 20%, transparent);
+	--foreground-50: color-mix(in oklch, var(--foreground) 50%, transparent);
+}
+
+@theme inline {
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-foreground-10: var(--foreground-10);
+	--color-foreground-20: var(--foreground-20);
+	--color-foreground-50: var(--foreground-50);
+
+	--font-sans: var(--font-geist-sans);
+	--font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
+}
+
+body {
+	background: var(--background);
+	color: var(--foreground);
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes animate {
+	0% {
+		background-position: -500%;
+	}
+	100% {
+		background-position: 500%;
+	}
+}
+
+span[data-completion] {
+	background: linear-gradient(
+		135deg,
+		var(--foreground-20),
+		var(--foreground-50),
+		var(--foreground-20)
+	);
+	background-size: 60%;
+	animation: animate 30s infinite alternate;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: var(--foreground-10);
+}
