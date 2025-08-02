@@ -40,6 +40,7 @@ export function ProseMirrorEditor({
 	});
 
 	useEditorEvent(editor, "focus", cancelCompletion);
+	useEditorEvent(editor, "blur", cancelCompletion);
 
 	return (
 		<ProseKit editor={editor}>
