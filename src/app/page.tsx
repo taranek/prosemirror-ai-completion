@@ -15,11 +15,6 @@ export default function Home() {
 							editor and wait for the AI to complete your thoughts.
 						</p>
 					</div>
-					{process.env.VERCEL_GIT_COMMIT_SHA && (
-						<div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded font-mono">
-							Build: {process.env.VERCEL_GIT_COMMIT_SHA.slice(0, 7)}
-						</div>
-					)}
 				</div>
 				
 				<CompletionExplainer />
