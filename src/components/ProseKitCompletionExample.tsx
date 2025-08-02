@@ -23,7 +23,7 @@ export function ProseMirrorEditor({
 }: {
 	defaultContent?: NodeJSON;
 }) {
-	const editorRef = useRef<HTMLDivElement>(null);
+	const editorRef = useRef<HTMLElement>(null);
 	
 	const editor = useMemo(() => {
 		const extension = defineExtension();

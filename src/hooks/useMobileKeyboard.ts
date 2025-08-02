@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 interface UseMobileKeyboardProps {
-  editorRef: React.RefObject<HTMLElement>;
+  editorRef: React.RefObject<HTMLElement | null>;
 }
 
 export function useMobileKeyboard({ editorRef }: UseMobileKeyboardProps) {
