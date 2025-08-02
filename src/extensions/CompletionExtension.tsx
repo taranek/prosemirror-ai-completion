@@ -191,7 +191,7 @@ export function defineCompletionCommands(): CompletionCommandsExtension {
 
 				if (completionPos !== -1 && completionNode && dispatch) {
 					const tr = state.tr;
-					tr.delete(completionPos, completionPos + completionNode.nodeSize);
+					tr.delete(completionPos, completionPos + (completionNode as Node)?.nodeSize);
 					dispatch(tr);
 					return true;
 				}
@@ -214,12 +214,12 @@ export function defineCompletionCommands(): CompletionCommandsExtension {
 
 				if (completionPos !== -1 && completionNode && dispatch) {
 					const tr = state.tr;
-					const completionValue = completionNode.attrs.value;
+					const completionValue = (completionNode as Node)?.attrs?.value;
 
 					// Replace the completion node with a text node containing the completion value
 					tr.replaceWith(
 						completionPos,
-						completionPos + completionNode.nodeSize,
+						completionPos + (completionNode as Node)?.nodeSize,
 						state.schema.text(completionValue),
 					);
 

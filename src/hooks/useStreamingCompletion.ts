@@ -23,12 +23,17 @@ interface UseStreamingCompletionProps {
 	editor: CompletionEditor;
 }
 
-const traverseContext = (content: NodeJSON[]) => {
+const traverseContext = (content: NodeJSON[] | undefined) => {
+	if(!content || !Array.isArray(content)) {
+		return [];
+	}
+	// TODO: get rid of recursion
 	if (content.length === 0) {
 		return content;
 	}
-	if (content[content.length - 1]?.content) {
-		return traverseContext(content[content.length - 1].content);
+	const lastNodeContent = content[content.length - 1]?.content
+	if (lastNodeContent) {
+		return traverseContext(lastNodeContent);
 	}
 	return content;
 };
@@ -48,7 +53,7 @@ export function useStreamingCompletion({
 		const json = jsonFromNode(doc);
 		const messageContent = traverseContext(json?.content);
 
-		if (messageContent?.[messageContent.length - 1]?.type === "completion") {
+		if (messageContent.length === 0 || messageContent?.[messageContent.length - 1]?.type === "completion") {
 			return;
 		}
 		append({
