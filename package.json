@@ -17,11 +17,11 @@
     "@ai-sdk/react": "^1.2.12",
     "@prosekit/core": "^0.8.3",
     "ai": "^4.3.19",
-    "next": "15.4.2",
+    "next": "15.5.7",
     "prosekit": "^0.14.1",
     "prosemirror-tables": "^1.7.1",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
     "use-debounce": "^10.0.5"
   },
   "devDependencies": {
